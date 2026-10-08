@@ -1,0 +1,30 @@
+const ORDER_STATUS = {
+  PENDING_PAYMENT: 'PENDING_PAYMENT',
+  PAID: 'PAID',
+  PROCESSING: 'PROCESSING',
+  SHIPPED: 'SHIPPED',
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED',
+};
+
+const PAYMENT_STATUS = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED',
+};
+
+const USER_ROLES = {
+  GUEST: 'guest',
+  CUSTOMER: 'customer',
+  ADMIN: 'admin',
+};
+
+const SIZES = ['S', 'M', 'L', 'XL', 'XXL'];
+
+module.exports = {
+  ORDER_STATUS,
+  PAYMENT_STATUS,
+  USER_ROLES,
+  SIZES,
+};

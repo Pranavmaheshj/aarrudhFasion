@@ -1,0 +1,16 @@
+{
+  "name": "aarrudh-fashion",
+  "version": "1.0.0",
+  "description": "Aarrudh Fashion Women's Boutique - Complete MERN Stack E-commerce Application",
+  "main": "server/server.js",
+  "scripts": {
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"magenta,yellow\" \"cd server && npm run dev\" \"cd client && npm run dev\"",
+    "start": "cd server && npm start",
+    "seed": "cd server && npm run seed",
+    "install:all": "npm install && cd server && npm install && cd ../client && npm install",
+    "build:client": "cd client && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}

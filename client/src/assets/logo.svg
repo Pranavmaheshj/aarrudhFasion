@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 150" width="500" height="150">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E5C158" />
+      <stop offset="50%" stop-color="#B8860B" />
+      <stop offset="100%" stop-color="#D4A62A" />
+    </linearGradient>
+    <linearGradient id="magentaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E91E63" />
+      <stop offset="70%" stop-color="#C2185B" />
+      <stop offset="100%" stop-color="#880E4F" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="1" dy="2" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <!-- Crown on Golden A -->
+  <g transform="translate(42, 10)">
+    <path d="M 12 28 L 22 14 L 32 24 L 42 14 L 52 28 Z" fill="url(#goldGrad)" filter="url(#shadow)" />
+    <circle cx="22" cy="12" r="3" fill="#D4A62A" />
+    <circle cx="32" cy="22" r="2.5" fill="#C2185B" />
+    <circle cx="42" cy="12" r="3" fill="#D4A62A" />
+    <rect x="15" y="27" width="34" height="3" rx="1.5" fill="url(#goldGrad)" />
+  </g>
+
+  <!-- Woman in Magenta Saree Silhouette beside 'A' -->
+  <g transform="translate(18, 26)">
+    <!-- Woman head & hair bun -->
+    <circle cx="16" cy="14" r="7" fill="#C2185B" />
+    <ellipse cx="11" cy="13" rx="4.5" ry="5.5" fill="#880E4F" />
+    <circle cx="9" cy="11" r="2" fill="#D4A62A" /> <!-- Hair ornament (Maang Tikka/Juda) -->
+    
+    <!-- Slender neck & torso -->
+    <path d="M 16 21 Q 16 26 14 30 L 19 32 Q 22 26 19 21 Z" fill="#C2185B" />
+
+    <!-- Saree pallu & pleats draping gracefully -->
+    <path d="M 14 30 Q 8 40 5 60 Q 3 85 10 110 Q 18 114 26 112 Q 31 85 24 55 Q 22 42 19 32 Z" 
+          fill="url(#magentaGrad)" filter="url(#shadow)" />
+
+    <!-- Golden Zari border on saree -->
+    <path d="M 5 60 Q 3 85 10 110" stroke="url(#goldGrad)" stroke-width="2.5" fill="none" />
+    <path d="M 19 32 Q 23 55 24 85 Q 24 105 26 112" stroke="url(#goldGrad)" stroke-width="2" fill="none" />
+    <path d="M 10 110 Q 18 114 26 112" stroke="url(#goldGrad)" stroke-width="2.5" fill="none" />
+    <path d="M 12 45 Q 8 65 14 85" stroke="#F3E5AB" stroke-width="1.2" stroke-dasharray="2,2" fill="none" />
+  </g>
+
+  <!-- Stylized Royal 'A' -->
+  <g transform="translate(62, 38)">
+    <path d="M 28 8 L 4 98 L 18 98 L 26 66 L 46 66 L 54 98 L 68 98 L 44 8 Z M 36 28 L 43 54 L 29 54 Z" 
+          fill="url(#goldGrad)" filter="url(#shadow)" />
+    <!-- Embellishment on crossbar -->
+    <circle cx="36" cy="60" r="3" fill="#C2185B" />
+  </g>
+
+  <!-- Typography: AARRUDH FASHION & Women's Boutique -->
+  <g transform="translate(150, 0)">
+    <!-- Brand Title -->
+    <text x="0" y="74" font-family="'Playfair Display', serif" font-size="44" font-weight="700" letter-spacing="4" fill="#2B2B2B">
+      AARRUDH
+    </text>
+    <text x="240" y="74" font-family="'Playfair Display', serif" font-size="44" font-weight="700" letter-spacing="4" fill="url(#magentaGrad)">
+      FASHION
+    </text>
+    
+    <!-- Tagline & Decorative Flourish -->
+    <line x1="2" y1="88" x2="80" y2="88" stroke="url(#goldGrad)" stroke-width="1.5" />
+    <circle cx="86" cy="88" r="2.5" fill="#C2185B" />
+    
+    <text x="96" y="94" font-family="'Montserrat', sans-serif" font-size="14.5" font-weight="600" letter-spacing="6" fill="#B8860B">
+      WOMEN'S BOUTIQUE
+    </text>
+    
+    <circle cx="316" cy="88" r="2.5" fill="#C2185B" />
+    <line x1="322" y1="88" x2="400" y2="88" stroke="url(#goldGrad)" stroke-width="1.5" />
+
+    <!-- Subtitle note -->
+    <text x="100" y="112" font-family="'Montserrat', sans-serif" font-size="9.5" font-weight="500" letter-spacing="3" fill="#777777">
+      EXCLUSIVE FESTIVE &amp; ETHNIC WEAR
+    </text>
+  </g>
+</svg>
