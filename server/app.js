@@ -51,7 +51,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Health checks and favicon
 app.get('/favicon.ico', (req, res) => res.status(204).end());
-app.get(['/', '/api'], (req, res) => {
+app.get('/api', (req, res) => {
   res.status(200).json({
     success: true,
     message: "Welcome to Aarrudh Fashion Women's Boutique API",
@@ -85,12 +85,15 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Serve Frontend in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
+// Serve Frontend storefront whenever built
+const clientDist = path.join(__dirname, '../client/dist');
+const fs = require('fs');
+
+if (fs.existsSync(clientDist)) {
+  app.use(express.static(clientDist));
   app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api')) return next();
-    res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+    if (req.path.startsWith('/api') || req.path.startsWith('/uploads')) return next();
+    res.sendFile(path.join(clientDist, 'index.html'));
   });
 }
 
