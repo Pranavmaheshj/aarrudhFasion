@@ -55,7 +55,12 @@ const ProductManager = () => {
       const res = await api.get('/admin/collections');
       setCollections(res.data.collections || []);
     } catch (err) {
-      console.error('Failed to load collections:', err);
+      try {
+        const fallbackRes = await api.get('/collections');
+        setCollections(fallbackRes.data.collections || []);
+      } catch (fallbackErr) {
+        console.error('Failed to load collections:', err);
+      }
     }
   };
 

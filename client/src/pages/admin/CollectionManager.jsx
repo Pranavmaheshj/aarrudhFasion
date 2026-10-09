@@ -24,7 +24,13 @@ const CollectionManager = () => {
       const res = await api.get('/admin/collections');
       setCollections(res.data.collections || []);
     } catch (err) {
-      toast.error('Failed to load collections');
+      console.warn('Admin collections request failed, attempting fallback to public collections:', err);
+      try {
+        const fallbackRes = await api.get('/collections');
+        setCollections(fallbackRes.data.collections || []);
+      } catch (fallbackErr) {
+        toast.error('Failed to load collections');
+      }
     } finally {
       setLoading(false);
     }

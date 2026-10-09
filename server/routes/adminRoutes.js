@@ -10,6 +10,17 @@ const {
 	uploadImages,
 } = require('../controllers/adminController');
 const { updateLandingContent } = require('../controllers/landingController');
+const {
+	getAllCollections,
+	createCollection,
+	updateCollection,
+	deleteCollection,
+} = require('../controllers/collectionController');
+const {
+	createProduct,
+	updateProduct,
+	deleteProduct,
+} = require('../controllers/productController');
 const { protect, authorize } = require('../middleware/authMiddleware');
 const upload = require('../middleware/uploadMiddleware');
 
@@ -26,5 +37,16 @@ router.get('/notifications', getNotifications);
 router.get('/audit-logs', getAuditLogs);
 router.post('/upload', upload.any(), uploadImages);
 router.put('/landing', updateLandingContent);
+
+// Collections management
+router.get('/collections', getAllCollections);
+router.post('/collections', createCollection);
+router.put('/collections/:id', updateCollection);
+router.delete('/collections/:id', deleteCollection);
+
+// Products management
+router.post('/products', createProduct);
+router.put('/products/:id', updateProduct);
+router.delete('/products/:id', deleteProduct);
 
 module.exports = router;

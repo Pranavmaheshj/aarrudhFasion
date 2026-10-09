@@ -71,12 +71,16 @@ const createCollection = async (req, res, next) => {
   try {
     const { name, description, images = [], isVisible = true, sortOrder = 0 } = req.body;
 
-    if (!name || !description) {
+    if (!name || !name.trim()) {
       return res.status(400).json({
         success: false,
-        message: 'Collection name and description are required.',
+        message: 'Collection name is required.',
       });
     }
+
+    const colDescription = description && description.trim()
+      ? description.trim()
+      : `${name.trim()} Designer Lookbook Collection`;
 
     let slug = slugify(name);
     // ensure unique slug
@@ -86,9 +90,9 @@ const createCollection = async (req, res, next) => {
     }
 
     const collection = await Collection.create({
-      name,
+      name: name.trim(),
       slug,
-      description,
+      description: colDescription,
       images,
       isVisible,
       sortOrder,
