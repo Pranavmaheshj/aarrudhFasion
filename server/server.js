@@ -1,5 +1,8 @@
+const path = require('path');
 const dotenv = require('dotenv');
-// Load environment variables before initializing DB & App
+
+// Load environment variables from server/.env, then fallback to root .env
+dotenv.config({ path: path.join(__dirname, '.env') });
 dotenv.config();
 
 const connectDB = require('./config/db');
