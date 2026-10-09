@@ -8,7 +8,8 @@ const connectDB = async () => {
     console.log(`[Database] MongoDB Connected: ${conn.connection.host}/${conn.connection.name}`);
   } catch (error) {
     console.error(`[Database Error] Connection failed: ${error.message}`);
-    process.exit(1);
+    console.log('[Database] Retrying MongoDB Atlas connection in 5 seconds...');
+    setTimeout(connectDB, 5000);
   }
 };
 
