@@ -8,8 +8,24 @@ dotenv.config();
 const connectDB = require('./config/db');
 const app = require('./app');
 
-// Connect to Database
-connectDB();
+// Connect to Database and ensure catalog is ready
+connectDB().then(async () => {
+  try {
+    const Product = require('./models/Product');
+    const User = require('./models/User');
+    const productCount = await Product.countDocuments();
+    const customer = await User.findOne({ email: 'customer@aarrudhfashion.com' });
+
+    if (productCount === 0 || !customer) {
+      console.log('🌱 Catalog or demo users missing in connected database. Auto-seeding now...');
+      const seedDatabase = require('./seed/seed');
+      await seedDatabase();
+      console.log('✅ Catalog auto-seed complete.');
+    }
+  } catch (err) {
+    console.warn('[Auto-seed Note]', err.message);
+  }
+});
 
 const PORT = process.env.PORT || 5000;
 

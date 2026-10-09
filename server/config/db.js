@@ -1,10 +1,15 @@
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
-  const uri = process.env.MONGO_URI;
+  let uri = process.env.MONGO_URI;
   if (!uri) {
     console.error('❌ [Database Warning] MONGO_URI is NOT set in environment variables!');
     console.error('👉 Add MONGO_URI in your Render Dashboard under the "Environment" tab.');
+  } else {
+    // If URI is missing database name before query string (e.g. .mongodb.net/?), normalize to /aarrudh_fashion
+    if (uri.includes('.mongodb.net/?')) {
+      uri = uri.replace('.mongodb.net/?', '.mongodb.net/aarrudh_fashion?');
+    }
   }
 
   try {

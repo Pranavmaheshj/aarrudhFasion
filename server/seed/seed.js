@@ -17,12 +17,14 @@ const connectDB = async () => {
 };
 
 const sampleEthnicImages = [
-  "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1610030469668-93510cb2866c?auto=format&fit=crop&w=800&q=80",
-  "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&w=800&q=80",
+  "/images/kurta-1.jpg",
+  "/images/kurta-2.jpg",
+  "/images/kurta-3.jpg",
+  "/images/kurta-4.jpg",
+  "/images/kurta-5.jpg",
+  "/images/kurta-6.jpg",
+  "/images/kurta-7.jpg",
+  "/images/kurta-8.jpg",
 ];
 
 const sampleProducts = [
@@ -290,8 +292,8 @@ const seedDatabase = async () => {
       slug: "diwali-collection-new-launch",
       description: "Festive women's ethnic kurta sets (kurta + pant + dupatta) adorned with rich pearl work, shimmering sequins, antique zari, and stone embroidery.",
       images: [
-        "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1000&q=80",
-        "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=1000&q=80"
+        "/images/kurta-1.jpg",
+        "/images/kurta-2.jpg"
       ],
       isVisible: true,
       sortOrder: 1,
@@ -304,7 +306,8 @@ const seedDatabase = async () => {
       slug: "royal-heritage-tissue-silk",
       description: "Handcrafted pure tissue silk and chanderi kurta sets woven with timeless regal motifs for weddings and celebrations.",
       images: [
-        "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1000&q=80"
+        "/images/kurta-3.jpg",
+        "/images/kurta-4.jpg"
       ],
       isVisible: true,
       sortOrder: 2,
@@ -357,9 +360,9 @@ const seedDatabase = async () => {
     // 5. Seed Singleton Landing Page Content
     await LandingContent.create({
       hero: {
-        title: "NEW LAUNCH – Diwali Collection",
-        subtitle: "Exquisite Festive Kurta Sets Handcrafted with Royal Pearl, Zari & Stone Work",
-        image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1600&q=80",
+        title: "NEW LAUNCH – Diwali Festive Collection",
+        subtitle: "Handcrafted Kurta Sets with Royal Pearl & Zari Embroidery for Festive Elegance",
+        image: "/images/hero-banner.jpg",
         ctaText: "Explore Collection",
       },
       footer: {
@@ -386,11 +389,17 @@ const seedDatabase = async () => {
     console.log(`✨ 20 Kurta Set Designs Seeded under "Diwali Collection – New Launch"`);
     console.log('=============================================================\n');
 
-    process.exit(0);
+    return true;
   } catch (err) {
     console.error('[Seed Error]', err);
-    process.exit(1);
+    throw err;
   }
 };
 
-seedDatabase();
+if (require.main === module) {
+  seedDatabase()
+    .then(() => process.exit(0))
+    .catch(() => process.exit(1));
+}
+
+module.exports = seedDatabase;

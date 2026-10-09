@@ -43,7 +43,7 @@ const ProductCard = ({ product }) => {
   };
 
   const images = product.images && product.images.length > 0 ? product.images : [
-    'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80'
+    '/images/kurta-1.jpg'
   ];
 
   const primaryImage = images[0];
@@ -72,8 +72,7 @@ const ProductCard = ({ product }) => {
           alt={product.name}
           className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
           onError={(e) => {
-            const fallback =
-              'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80';
+            const fallback = '/images/kurta-1.jpg';
             if (e.currentTarget.src !== fallback) {
               e.currentTarget.src = fallback;
             }

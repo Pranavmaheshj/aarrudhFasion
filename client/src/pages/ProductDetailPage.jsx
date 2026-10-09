@@ -172,7 +172,7 @@ const ProductDetailPage = () => {
                     alt={`${product.name} view ${idx + 1}`}
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      const fallback = 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=400&q=80';
+                      const fallback = '/images/kurta-1.jpg';
                       if (e.currentTarget.src !== fallback) {
                         e.currentTarget.src = fallback;
                       }
@@ -186,11 +186,11 @@ const ProductDetailPage = () => {
           {/* Main Selected Image */}
           <div className="relative flex-1 aspect-[3/4] rounded-2xl overflow-hidden bg-brand-creamDark border border-brand-borderWarm shadow-boutique group">
             <img
-              src={selectedImage || product.images?.[0] || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80'}
+              src={selectedImage || product.images?.[0] || '/images/kurta-1.jpg'}
               alt={product.name}
               className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105 cursor-zoom-in"
               onError={(e) => {
-                const fallback = 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80';
+                const fallback = '/images/kurta-1.jpg';
                 if (e.currentTarget.src !== fallback) {
                   e.currentTarget.src = fallback;
                 }

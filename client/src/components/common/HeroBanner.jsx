@@ -6,8 +6,7 @@ import { Sparkles, ArrowRight } from 'lucide-react';
 const HeroBanner = ({ banner, hero }) => {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
-  const fallbackImage =
-    'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1600&q=80';
+  const fallbackImage = '/images/hero-banner.jpg';
 
   const data = banner || hero || {};
   const title = data.title || 'NEW LAUNCH – Diwali Festive Collection';

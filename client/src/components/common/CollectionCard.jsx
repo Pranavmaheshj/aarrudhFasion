@@ -10,8 +10,7 @@ const CollectionCard = ({ collection }) => {
     ? `/shop?collection=${collection.slug}`
     : `/login?redirect=${encodeURIComponent(`/shop?collection=${collection.slug}`)}`;
 
-  const defaultImage =
-    "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80";
+  const defaultImage = "/images/kurta-1.jpg";
 
   const primaryImage =
     collection.images && collection.images.length > 0

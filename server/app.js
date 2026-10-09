@@ -46,8 +46,10 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 
-// Static uploads directory
+// Static uploads and bundled boutique images directory
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/images', express.static(path.join(__dirname, 'uploads')));
+app.use('/images', express.static(path.join(__dirname, '../client/public/images')));
 
 // Health checks and favicon
 app.get('/favicon.ico', (req, res) => res.status(204).end());
