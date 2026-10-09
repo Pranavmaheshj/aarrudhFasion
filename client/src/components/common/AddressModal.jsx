@@ -41,6 +41,14 @@ const AddressModal = ({ isOpen, onClose, onAddressSaved, initialData = null }) =
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    if (name === 'mobile') {
+      let digits = value.replace(/\D/g, '');
+      if (digits.length > 10 && digits.startsWith('91')) digits = digits.slice(2);
+      else if (digits.length > 10 && digits.startsWith('0')) digits = digits.slice(1);
+      digits = digits.slice(0, 10);
+      setFormData((prev) => ({ ...prev, mobile: digits }));
+      return;
+    }
     setFormData((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
@@ -50,10 +58,15 @@ const AddressModal = ({ isOpen, onClose, onAddressSaved, initialData = null }) =
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    let cleanMobile = formData.mobile.replace(/\D/g, '');
+    if (cleanMobile.length > 10 && cleanMobile.startsWith('91')) cleanMobile = cleanMobile.slice(2);
+    else if (cleanMobile.length > 10 && cleanMobile.startsWith('0')) cleanMobile = cleanMobile.slice(1);
+    cleanMobile = cleanMobile.slice(-10);
+
     // Validations
     if (!formData.name.trim()) return toast.error('Recipient name is required');
-    if (!/^[6-9]\d{9}$/.test(formData.mobile)) {
-      return toast.error('Enter a valid 10-digit Indian mobile number');
+    if (!/^[6-9]\d{9}$/.test(cleanMobile)) {
+      return toast.error('Enter a valid 10-digit Indian mobile number starting with 6-9');
     }
     if (!/^[1-9][0-9]{5}$/.test(formData.pincode)) {
       return toast.error('Enter a valid 6-digit postal pincode');

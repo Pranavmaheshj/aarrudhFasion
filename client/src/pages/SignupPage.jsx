@@ -27,6 +27,14 @@ const SignupPage = () => {
   const redirect = searchParams.get('redirect') || '/shop';
 
   const handleChange = (e) => {
+    if (e.target.name === 'phone') {
+      let digits = e.target.value.replace(/\D/g, '');
+      if (digits.length > 10 && digits.startsWith('91')) digits = digits.slice(2);
+      else if (digits.length > 10 && digits.startsWith('0')) digits = digits.slice(1);
+      digits = digits.slice(0, 10);
+      setFormData({ ...formData, phone: digits });
+      return;
+    }
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -44,9 +52,15 @@ const SignupPage = () => {
       return;
     }
 
+    // Sanitize phone number (strip spaces, country code, leading zeros)
+    let cleanPhone = formData.phone.replace(/\D/g, '');
+    if (cleanPhone.length > 10 && cleanPhone.startsWith('91')) cleanPhone = cleanPhone.slice(2);
+    else if (cleanPhone.length > 10 && cleanPhone.startsWith('0')) cleanPhone = cleanPhone.slice(1);
+    cleanPhone = cleanPhone.slice(-10);
+
     const indianMobileRegex = /^[6-9]\d{9}$/;
-    if (!indianMobileRegex.test(formData.phone.trim())) {
-      toast.error('Please enter a valid 10-digit Indian mobile number');
+    if (!indianMobileRegex.test(cleanPhone)) {
+      toast.error('Please enter a valid 10-digit Indian mobile number starting with 6, 7, 8, or 9');
       return;
     }
 
@@ -65,7 +79,8 @@ const SignupPage = () => {
         signupUser({
           name: formData.name.trim(),
           email: formData.email.trim(),
-          phone: formData.phone.trim(),
+          mobile: cleanPhone,
+          phone: cleanPhone,
           password: formData.password,
         })
       ).unwrap();

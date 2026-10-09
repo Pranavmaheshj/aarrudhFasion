@@ -35,6 +35,17 @@ const LoginPage = () => {
     }
   }, [isAuthenticated, user, navigate, redirect, queryParams]);
 
+  const handleQuickLogin = async (id, pwd) => {
+    setIdentifier(id);
+    setPassword(pwd);
+    const result = await dispatch(loginUser({ identifier: id, password: pwd }));
+    if (loginUser.fulfilled.match(result)) {
+      toast.success(`Welcome back, ${result.payload.user?.name}!`);
+    } else {
+      toast.error(result.payload || 'Login failed. Please check credentials.');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!identifier.trim() || !password) {
@@ -65,36 +76,67 @@ const LoginPage = () => {
           </p>
         </div>
 
-        {/* Demo Quick Fill helper */}
-        <div className="mb-6 p-3 bg-brand-cream/80 rounded-xl border border-brand-borderWarm text-[11px] text-gray-600 flex flex-col gap-1.5">
-          <span className="font-bold text-brand-magenta flex items-center gap-1">
-            <Sparkles className="w-3.5 h-3.5 text-brand-gold" /> Demo Login Credentials:
-          </span>
-          <div className="flex justify-between items-center">
-            <span><strong>Customer:</strong> customer@aarrudhfashion.com</span>
-            <button
-              type="button"
-              onClick={() => {
-                setIdentifier('customer@aarrudhfashion.com');
-                setPassword('Customer@123');
-              }}
-              className="text-[10px] text-brand-magenta underline font-semibold"
-            >
-              Fill Customer
-            </button>
+        {/* Demo Quick Fill & Instant Sign In helper */}
+        <div className="mb-6 p-3.5 bg-brand-cream/80 rounded-2xl border border-brand-borderWarm text-[11px] text-gray-600 flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <span className="font-bold text-brand-magenta flex items-center gap-1 text-xs">
+              <Sparkles className="w-3.5 h-3.5 text-brand-gold" /> One-Click Demo Login:
+            </span>
+            <span className="text-[10px] text-gray-400">Click to enter directly</span>
           </div>
-          <div className="flex justify-between items-center">
-            <span><strong>Admin:</strong> admin@aarrudhfashion.com</span>
-            <button
-              type="button"
-              onClick={() => {
-                setIdentifier('admin@aarrudhfashion.com');
-                setPassword('Admin@12345');
-              }}
-              className="text-[10px] text-brand-magenta underline font-semibold"
-            >
-              Fill Admin
-            </button>
+          
+          <div className="flex items-center justify-between bg-white/80 p-2 rounded-xl border border-brand-borderWarm/60">
+            <div>
+              <p className="font-semibold text-gray-800">👗 Customer</p>
+              <p className="text-[10px] text-gray-500">customer@aarrudhfashion.com</p>
+            </div>
+            <div className="flex gap-1.5">
+              <button
+                type="button"
+                onClick={() => {
+                  setIdentifier('customer@aarrudhfashion.com');
+                  setPassword('Customer@123');
+                }}
+                className="px-2 py-1 text-[10px] border border-gray-300 rounded-md text-gray-600 hover:bg-gray-50 font-medium"
+              >
+                Fill
+              </button>
+              <button
+                type="button"
+                disabled={isLoading}
+                onClick={() => handleQuickLogin('customer@aarrudhfashion.com', 'Customer@123')}
+                className="px-2.5 py-1 text-[10px] bg-brand-magenta text-white rounded-md hover:bg-brand-magentaDark font-bold shadow-xs transition-colors"
+              >
+                Login
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-between bg-white/80 p-2 rounded-xl border border-brand-borderWarm/60">
+            <div>
+              <p className="font-semibold text-gray-800">👑 Admin</p>
+              <p className="text-[10px] text-gray-500">admin@aarrudhfashion.com</p>
+            </div>
+            <div className="flex gap-1.5">
+              <button
+                type="button"
+                onClick={() => {
+                  setIdentifier('admin@aarrudhfashion.com');
+                  setPassword('Admin@12345');
+                }}
+                className="px-2 py-1 text-[10px] border border-gray-300 rounded-md text-gray-600 hover:bg-gray-50 font-medium"
+              >
+                Fill
+              </button>
+              <button
+                type="button"
+                disabled={isLoading}
+                onClick={() => handleQuickLogin('admin@aarrudhfashion.com', 'Admin@12345')}
+                className="px-2.5 py-1 text-[10px] bg-brand-gold-dark text-white rounded-md hover:bg-brand-gold font-bold shadow-xs transition-colors"
+              >
+                Login
+              </button>
+            </div>
           </div>
         </div>
 

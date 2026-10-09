@@ -167,7 +167,17 @@ const ProductDetailPage = () => {
                     selectedImage === img ? 'border-brand-magenta ring-2 ring-brand-magenta/30 shadow' : 'border-brand-borderWarm opacity-70 hover:opacity-100'
                   }`}
                 >
-                  <img src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
+                  <img
+                    src={img}
+                    alt={`${product.name} view ${idx + 1}`}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const fallback = 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=400&q=80';
+                      if (e.currentTarget.src !== fallback) {
+                        e.currentTarget.src = fallback;
+                      }
+                    }}
+                  />
                 </button>
               ))}
             </div>
@@ -176,9 +186,15 @@ const ProductDetailPage = () => {
           {/* Main Selected Image */}
           <div className="relative flex-1 aspect-[3/4] rounded-2xl overflow-hidden bg-brand-creamDark border border-brand-borderWarm shadow-boutique group">
             <img
-              src={selectedImage || product.images?.[0]}
+              src={selectedImage || product.images?.[0] || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80'}
               alt={product.name}
               className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105 cursor-zoom-in"
+              onError={(e) => {
+                const fallback = 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80';
+                if (e.currentTarget.src !== fallback) {
+                  e.currentTarget.src = fallback;
+                }
+              }}
             />
             {product.isNewProduct && (
               <span className="absolute top-4 left-4 bg-brand-magenta text-white text-[11px] font-bold px-3 py-1 rounded tracking-wider uppercase shadow">

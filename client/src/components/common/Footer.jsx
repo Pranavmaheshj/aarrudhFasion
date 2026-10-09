@@ -73,7 +73,15 @@ const Footer = ({ content }) => {
           
           {/* Brand Col */}
           <div className="space-y-4">
-            <img src={logoImg} alt="Aarrudh Fashion" className="h-12 w-auto object-contain" />
+            <img
+              src={logoImg}
+              alt="Aarrudh Fashion"
+              className="h-10 sm:h-12 w-auto object-contain"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = '/logo.png';
+              }}
+            />
             <p className="text-xs text-gray-600 leading-relaxed font-serif">
               A luxury women's boutique celebrating Indian ethnic heritage. Hand-embroidered kurta sets designed for festive ceremonies, weddings, and celebratory moments.
             </p>

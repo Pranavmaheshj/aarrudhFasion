@@ -36,10 +36,19 @@ const sendTokenResponse = (user, statusCode, res, message = 'Success') => {
 // @access  Public
 const signup = async (req, res, next) => {
   try {
-    const { name, email, mobile, password } = req.body;
+    const { name, email, password } = req.body;
+    const rawMobile = req.body.mobile || req.body.phone || '';
+    const cleanMobile = String(rawMobile).replace(/\D/g, '').replace(/^91/, '').replace(/^0/, '').slice(-10);
+
+    if (!cleanMobile || cleanMobile.length !== 10) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please provide a valid 10-digit Indian mobile number.',
+      });
+    }
 
     // Check if email exists
-    const emailExists = await User.findOne({ email: email.toLowerCase() });
+    const emailExists = await User.findOne({ email: email.toLowerCase().trim() });
     if (emailExists) {
       return res.status(400).json({
         success: false,
@@ -48,7 +57,9 @@ const signup = async (req, res, next) => {
     }
 
     // Check if mobile exists
-    const mobileExists = await User.findOne({ mobile: mobile.trim() });
+    const mobileExists = await User.findOne({
+      $or: [{ mobile: cleanMobile }, { mobile: String(rawMobile).trim() }]
+    });
     if (mobileExists) {
       return res.status(400).json({
         success: false,
@@ -57,9 +68,9 @@ const signup = async (req, res, next) => {
     }
 
     const user = await User.create({
-      name,
-      email: email.toLowerCase(),
-      mobile: mobile.trim(),
+      name: name.trim(),
+      email: email.toLowerCase().trim(),
+      mobile: cleanMobile,
       passwordHash: password,
       role: 'customer',
     });
@@ -77,11 +88,14 @@ const login = async (req, res, next) => {
   try {
     const { identifier, password } = req.body;
 
-    const trimmed = identifier.trim();
+    const trimmed = (identifier || '').trim();
     const isEmail = trimmed.includes('@');
+    const cleanMobile = trimmed.replace(/\D/g, '').replace(/^91/, '').replace(/^0/, '').slice(-10);
 
     const user = await User.findOne(
-      isEmail ? { email: trimmed.toLowerCase() } : { mobile: trimmed }
+      isEmail
+        ? { email: trimmed.toLowerCase() }
+        : { $or: [{ mobile: trimmed }, { mobile: cleanMobile }] }
     );
 
     if (!user) {

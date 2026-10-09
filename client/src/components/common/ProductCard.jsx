@@ -72,8 +72,11 @@ const ProductCard = ({ product }) => {
           alt={product.name}
           className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
           onError={(e) => {
-            e.currentTarget.src =
+            const fallback =
               'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80';
+            if (e.currentTarget.src !== fallback) {
+              e.currentTarget.src = fallback;
+            }
           }}
         />
 
