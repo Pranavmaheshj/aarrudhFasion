@@ -85,6 +85,15 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/admin', adminRoutes);
 
+// Serve Frontend in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/dist')));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path.resolve(__dirname, '../client/dist/index.html'));
+  });
+}
+
 // 404 & Error Handling
 app.use(notFound);
 app.use(errorHandler);
