@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useOutletContext } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchCart,
@@ -25,6 +25,8 @@ import toast from 'react-hot-toast';
 const CartPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const outletCtx = useOutletContext();
+  const festivalOffer = outletCtx?.landingContent?.festivalOffer;
 
   const { items, totals, isLoading } = useSelector((state) => state.cart);
   const [couponCode, setCouponCode] = useState('');
@@ -67,16 +69,44 @@ const CartPage = () => {
 
   const applyCoupon = (e) => {
     e.preventDefault();
-    if (!couponCode.trim()) return;
+    const cleanCode = couponCode.trim().toUpperCase();
+    if (!cleanCode) return;
 
-    if (couponCode.toUpperCase() === 'DIWALI20' || couponCode.toUpperCase() === 'FESTIVE10') {
+    const festivalEnabled = festivalOffer?.enabled !== false;
+    const activeFestiveCode = (festivalOffer?.couponCode || 'FESTIVE10').toUpperCase();
+    const activeDiscountPct = festivalOffer?.discountPercent ?? 10;
+    const activeMinOrder = festivalOffer?.minOrderAmount ?? 0;
+
+    if (cleanCode === activeFestiveCode) {
+      if (!festivalEnabled) {
+        toast.error(`The festival promotion has concluded and code ${cleanCode} is no longer active.`);
+        return;
+      }
+      if (totals.subtotal < activeMinOrder) {
+        toast.error(`Minimum order amount of ₹${activeMinOrder.toLocaleString('en-IN')} required for ${cleanCode}.`);
+        return;
+      }
+      const disc = Math.round(totals.subtotal * (activeDiscountPct / 100));
+      setCouponDiscount(disc);
+      setCouponApplied(true);
+      toast.success(`Festival coupon ${cleanCode} applied! ₹${disc.toLocaleString('en-IN')} saved.`);
+      return;
+    }
+
+    // Standard fallback coupons
+    if (cleanCode === 'WELCOME10') {
       const disc = Math.round(totals.subtotal * 0.1);
       setCouponDiscount(disc);
       setCouponApplied(true);
-      toast.success(`Coupon ${couponCode.toUpperCase()} applied! ₹${disc} saved.`);
-    } else {
-      toast.error('Invalid coupon code. Try FESTIVE10');
+      toast.success(`Coupon WELCOME10 applied! ₹${disc} saved.`);
+      return;
     }
+
+    toast.error(
+      festivalEnabled
+        ? `Invalid code. Active festival code is ${activeFestiveCode}`
+        : 'Invalid coupon code. Please verify the code entered.'
+    );
   };
 
   if (isLoading && (!items || items.length === 0)) {
@@ -241,14 +271,44 @@ const CartPage = () => {
         <div className="lg:col-span-4 space-y-5">
           {/* Promo Coupon Card */}
           <div className="bg-white rounded-xl border border-brand-gold/20 p-5 shadow-sm">
-            <h3 className="font-serif text-sm font-bold text-brand-dark flex items-center gap-1.5 mb-3">
-              <Tag className="w-4 h-4 text-brand-gold-dark" />
-              <span>Apply Boutique Coupon</span>
+            <h3 className="font-serif text-sm font-bold text-brand-dark flex items-center justify-between mb-3">
+              <span className="flex items-center gap-1.5">
+                <Tag className="w-4 h-4 text-brand-gold-dark" />
+                <span>Apply Boutique Coupon</span>
+              </span>
+              {festivalOffer?.enabled !== false && (
+                <span className="text-[10px] bg-brand-gold/20 text-brand-gold-dark px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
+                  Festive Special
+                </span>
+              )}
             </h3>
+
+            {/* Dynamic Festival Offer Hint & 1-Click Code Apply */}
+            {festivalOffer?.enabled !== false && festivalOffer?.couponCode && !couponApplied && (
+              <div className="mb-3 p-2.5 bg-gradient-to-r from-amber-50 to-pink-50 rounded-lg border border-brand-gold/30 flex items-center justify-between gap-2">
+                <div className="min-w-0">
+                  <p className="text-[11px] font-bold text-brand-dark truncate">
+                    🎉 {festivalOffer.festivalName || 'Festive Offer'} ({festivalOffer.discountPercent || 10}% OFF)
+                  </p>
+                  <p className="text-[10px] text-gray-500">
+                    Use code <span className="font-mono font-bold text-brand-magenta">{festivalOffer.couponCode}</span>
+                    {festivalOffer.minOrderAmount > 0 ? ` on orders above ₹${festivalOffer.minOrderAmount}` : ''}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setCouponCode(festivalOffer.couponCode)}
+                  className="px-2.5 py-1 bg-brand-magenta hover:bg-brand-magenta-dark text-white text-[10px] font-bold rounded shrink-0 transition-colors uppercase tracking-wider shadow-2xs"
+                >
+                  Use Code
+                </button>
+              </div>
+            )}
+
             <form onSubmit={applyCoupon} className="flex gap-2">
               <input
                 type="text"
-                placeholder="e.g. FESTIVE10"
+                placeholder={festivalOffer?.enabled !== false ? `e.g. ${festivalOffer?.couponCode || 'FESTIVE10'}` : 'Enter Coupon Code'}
                 value={couponCode}
                 onChange={(e) => setCouponCode(e.target.value)}
                 className="flex-grow px-3 py-2 text-xs uppercase tracking-wider rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-brand-magenta focus:border-brand-magenta"

@@ -24,7 +24,7 @@ const getLandingContent = async (req, res, next) => {
 // @access  Private/Admin
 const updateLandingContent = async (req, res, next) => {
   try {
-    const { hero, footer } = req.body;
+    const { hero, footer, festivalOffer } = req.body;
 
     let content = await LandingContent.findOne();
     if (!content) {
@@ -37,6 +37,9 @@ const updateLandingContent = async (req, res, next) => {
     if (footer) {
       content.footer = { ...content.footer.toObject(), ...footer };
     }
+    if (festivalOffer !== undefined) {
+      content.festivalOffer = { ...(content.festivalOffer ? content.festivalOffer.toObject() : {}), ...festivalOffer };
+    }
 
     await content.save();
 
@@ -45,7 +48,7 @@ const updateLandingContent = async (req, res, next) => {
       action: 'UPDATE_LANDING',
       entity: 'LandingContent',
       entityId: content._id,
-      details: { hero, footer },
+      details: { hero, footer, festivalOffer },
       ip: req.ip,
     });
 

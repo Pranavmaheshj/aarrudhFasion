@@ -21,7 +21,7 @@ const RootLayout = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-brand-cream text-brand-dark">
-      <Navbar />
+      <Navbar festivalOffer={landingContent?.festivalOffer} />
       <main className="flex-1">
         <Outlet context={{ landingContent, setLandingContent }} />
       </main>

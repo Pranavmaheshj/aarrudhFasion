@@ -28,7 +28,7 @@ const LandingPage = () => {
   return (
     <div className="space-y-12 pb-16">
       {/* 1. Admin-Editable Hero Banner */}
-      <HeroBanner hero={landingContent?.hero} />
+      <HeroBanner hero={landingContent?.hero} festivalOffer={landingContent?.festivalOffer} />
 
       {/* 2. Collections Showcase Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">

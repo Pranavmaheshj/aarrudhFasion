@@ -9,6 +9,7 @@ const {
 	getAuditLogs,
 	uploadImages,
 } = require('../controllers/adminController');
+const { updateLandingContent } = require('../controllers/landingController');
 const { protect, authorize } = require('../middleware/authMiddleware');
 const upload = require('../middleware/uploadMiddleware');
 
@@ -24,5 +25,6 @@ router.get('/customers', getCustomers);
 router.get('/notifications', getNotifications);
 router.get('/audit-logs', getAuditLogs);
 router.post('/upload', upload.any(), uploadImages);
+router.put('/landing', updateLandingContent);
 
 module.exports = router;

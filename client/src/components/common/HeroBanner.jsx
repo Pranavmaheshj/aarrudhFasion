@@ -3,12 +3,17 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Sparkles, ArrowRight } from 'lucide-react';
 
-const HeroBanner = ({ banner, hero }) => {
+const HeroBanner = ({ banner, hero, festivalOffer }) => {
   const { isAuthenticated } = useSelector((state) => state.auth);
 
   const fallbackImage = '/images/hero-banner.jpg';
 
   const data = banner || hero || {};
+  const isFestivalActive = festivalOffer?.enabled !== false;
+  const badgeLabel = isFestivalActive
+    ? (festivalOffer?.badgeText || 'Festive Edit • Royal Collection')
+    : 'Boutique Collection • Handcrafted Elegance';
+
   const title = data.title || 'NEW LAUNCH – Diwali Festive Collection';
   const subtitle =
     data.subtitle ||
@@ -28,7 +33,7 @@ const HeroBanner = ({ banner, hero }) => {
           <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-center lg:text-left">
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-gold/15 border border-brand-gold/30 text-brand-gold-dark text-[11px] sm:text-xs uppercase tracking-widest font-semibold">
               <Sparkles className="w-3.5 h-3.5 text-brand-gold" />
-              <span>Festive Edit • Royal Collection</span>
+              <span>{badgeLabel}</span>
             </div>
 
             <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-brand-dark font-normal leading-tight tracking-tight">

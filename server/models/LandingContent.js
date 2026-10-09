@@ -19,6 +19,36 @@ const LandingContentSchema = new mongoose.Schema({
       default: "Explore The Collection",
     },
   },
+  festivalOffer: {
+    enabled: {
+      type: Boolean,
+      default: true,
+    },
+    festivalName: {
+      type: String,
+      default: "Diwali Festive Launch",
+    },
+    offerText: {
+      type: String,
+      default: "Diwali Festive Launch: Free Express Shipping on Orders Above ₹1,999 | Handcrafted Kurta Sets",
+    },
+    couponCode: {
+      type: String,
+      default: "FESTIVE10",
+    },
+    discountPercent: {
+      type: Number,
+      default: 10,
+    },
+    minOrderAmount: {
+      type: Number,
+      default: 1999,
+    },
+    badgeText: {
+      type: String,
+      default: "Festive Edit • Royal Collection",
+    },
+  },
   footer: {
     boutiqueName: {
       type: String,

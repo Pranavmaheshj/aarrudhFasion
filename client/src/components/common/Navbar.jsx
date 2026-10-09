@@ -19,7 +19,7 @@ import { logoutUser } from '../../store/authSlice';
 import logoImg from '../../assets/logo.png';
 import logoSvg from '../../assets/logo.svg';
 
-const Navbar = () => {
+const Navbar = ({ festivalOffer }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -67,14 +67,21 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-[#FFF9EC]/95 backdrop-blur-md border-b border-brand-borderWarm shadow-sm transition-all">
-      {/* Top Announcements Strip */}
-      <div className="bg-gradient-to-r from-brand-magenta via-brand-magentaDark to-brand-magenta text-[#FFF9EC] py-1 sm:py-1.5 px-2 sm:px-4 text-[11px] sm:text-xs font-medium text-center tracking-wider flex items-center justify-center gap-1.5 sm:gap-2">
-        <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-goldShimmer animate-pulse shrink-0" />
-        <span className="truncate max-w-[90vw] sm:max-w-none">
-          Diwali Festive Launch: Free Express Shipping on Orders Above ₹1,999 | Handcrafted Kurta Sets
-        </span>
-        <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-goldShimmer animate-pulse hidden sm:inline shrink-0" />
-      </div>
+      {/* Top Announcements Strip (Dynamic Festival Offer - can be enabled/disabled by Admin) */}
+      {festivalOffer?.enabled !== false && (
+        <div className="bg-gradient-to-r from-brand-magenta via-brand-magentaDark to-brand-magenta text-[#FFF9EC] py-1 sm:py-1.5 px-2 sm:px-4 text-[11px] sm:text-xs font-medium text-center tracking-wider flex items-center justify-center gap-1.5 sm:gap-2 transition-all">
+          <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-goldShimmer animate-pulse shrink-0" />
+          <span className="truncate max-w-[85vw] sm:max-w-none">
+            {festivalOffer?.offerText || "Diwali Festive Launch: Free Express Shipping on Orders Above ₹1,999 | Handcrafted Kurta Sets"}
+          </span>
+          {festivalOffer?.couponCode && (
+            <span className="hidden sm:inline bg-brand-gold/30 text-white font-bold px-2 py-0.5 rounded text-[10px] tracking-widest ml-1 border border-brand-gold/40">
+              USE: {festivalOffer.couponCode}
+            </span>
+          )}
+          <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-goldShimmer animate-pulse hidden sm:inline shrink-0" />
+        </div>
+      )}
 
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
