@@ -5,7 +5,6 @@
   "main": "server/server.js",
   "scripts": {
     "build": "npm --prefix server install && npm --prefix client install && npm --prefix client run build",
-    "postinstall": "npm --prefix client install && npm --prefix client run build",
     "dev": "concurrently -n \"SERVER,CLIENT\" -c \"magenta,yellow\" \"cd server && npm run dev\" \"cd client && npm run dev\"",
     "start": "node server/server.js",
     "seed": "cd server && npm run seed",
